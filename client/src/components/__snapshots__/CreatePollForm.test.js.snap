@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreatePollForm should render correctly in "debug" mode 1`] = `
+<div>
+  <form
+    onSubmit={[Function]}
+  >
+    Name:
+    <input
+      onChange={[Function]}
+      type="text"
+    />
+    <input
+      type="submit"
+      value="New Poll"
+    />
+  </form>
+  Options: 
+  <div>
+    none
+  </div>
+  <form
+    onSubmit={[Function]}
+  >
+    New Option: 
+    <input
+      onChange={[Function]}
+      type="text"
+    />
+    <input
+      type="submit"
+      value="Add"
+    />
+  </form>
+</div>
+`;
