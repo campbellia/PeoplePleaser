@@ -3,20 +3,31 @@ var db = require('./index.js');
 module.exports = {
   createPoll: (data, callback) => {
     db.collection("polls").add({
-      linkId: data.linkId,
-      pollName: data.pollName,
-      pollOptions: data.options,
+      name: data.name,
+      options: data.options,
       totalVotes: 0
-  })
-  .then(function(record) {
-      callback(record);
-  })
-  .catch(function(error) {
-      callback(error);
-  });
+    })
+    .then(function(record) {
+        callback(null, record.id);
+    })
+    .catch(function(error) {
+        callback(error);
+    });
   },
-  getPoll: (linkId) =>{
-    console.log('GET POLL WITH:', linkId);
+  getPoll: (id, callback) => {
+    var docRef = db.collection("polls").doc(id);
+    docRef.get()
+    .then((doc) => {
+      if(doc.exists) {
+        callback(null, doc.data());
+      } else {
+        callback('Document does not exist');
+      }
+    })
+    .catch(function(error) {
+        console.log('in catch', error);
+        callback(error);
+    });
   },
   updatePoll: (data) => {
     console.log("UPDATE POLL WITH:", data);
