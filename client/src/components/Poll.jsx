@@ -5,23 +5,9 @@ import axios from 'axios';
 const Poll = (props) => {
   const [poll, setPoll] = useState({
     name: "Loading...",
-    options: {}
+    options: {},
+    totalVotes: 0
   });
-
-  const getPoll = () => {
-    var url = `/polls/${props.pollId}`;
-    console.log('GET REQUEST TO:', url);
-    axios.get(url)
-      .then(result => {
-        console.log('POLL:', result.data);
-        setPoll(result.data);
-      })
-      .catch(err => {
-        console.log('ERROR getting poll:', err);
-      });
-  }
-
-  useEffect(() => {getPoll()}, []);
 
   var neutralResults = {};
   var options = Object.keys(poll.options);
@@ -31,6 +17,19 @@ const Poll = (props) => {
 
   const [results, setResults] = useState(neutralResults);
 
+  const getPoll = () => {
+    var url = `/polls/${props.pollId}`;
+    axios.get(url)
+      .then(result => {
+        setPoll(result.data);
+      })
+      .catch(err => {
+        console.log('ERROR getting poll:', err);
+      });
+  }
+
+  useEffect(() => {getPoll()}, []);
+
   const onSliderChange = (e, val) => {
     var newResults = {};
     Object.assign(newResults, results);
@@ -38,14 +37,23 @@ const Poll = (props) => {
     setResults(newResults);
   }
 
-  const handleSubmitVotes = () => {
-    props.handleSubmitVotes(results);
+  const handleSubmitVotes = (event) => {
+    event.preventDefault();
+    if (results[''] !== undefined) {
+      delete results[''];
+    }
+    const pollData = {};
+    pollData.name = poll.name;
+    pollData.options = results;
+    pollData.totalVotes = poll.totalVotes++;
+    console.log('polldata:', pollData);
+    props.handleSubmitVotes(props.pollId, pollData);
   }
 
   return (
     <div className="poll">
       <h1>{poll.name}</h1>
-      <form onSubmit={handleSubmitVotes}>
+      <form onSubmit={(e) => {handleSubmitVotes(e)}}>
         {options.map(option => {
           return (
           <div className="option">

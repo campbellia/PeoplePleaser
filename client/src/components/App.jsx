@@ -14,25 +14,31 @@ const App = ({pollId}) => {
       options: options,
       totalVotes: 0
     }
-    console.log("in on formsubmit", pollInfo);
     axios.post('/polls', pollInfo)
       .then(res => {
-        console.log('PollId:', res);
-        //setPoll(res);
+        setPoll(res.data);
       })
       .catch(err => {
         console.log(err);
       })
   }
 
-  const handleSubmitVotes = (results) => {
-    //submit the results to the db
-    //display results
+  const handleSubmitVotes = (id, results) => {
+    var url = `/polls/${id}`;
+    console.log('results:', results);
+    axios.put(url, results)
+      .then((res) => {
+        console.log('RESPONSE:', res);
+      })
+      .catch(err => {
+        console.log('ERR:', err);
+      });
+    //display results/ranking?
   }
 
   const getComponents = () => {
     if (poll) {
-      return <Poll handleSubmitVotes={handleSubmitVotes} poll={poll}/>;
+      return <Poll handleSubmitVotes={handleSubmitVotes} pollId={poll}/>;
     } else {
       return <CreatePollForm onFormSubmit={onFormSubmit}/>;
     }

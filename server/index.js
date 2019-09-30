@@ -8,9 +8,7 @@ app.use(bodyParser.json());
 app.use('/', express.static('public/'));
 
 app.get('/polls/:id', (req, res) => {
-  console.log('Get request made:', req.params);
   controllers.getPoll(req.params.id, (err, data) => {
-    console.log('In get poll:', err, data);
     if (err) {
       console.log('Error getting poll: ', err);
       res.status(400).send();
@@ -27,6 +25,18 @@ app.post('/polls', (req, res) => {
       res.status(400).send(err);
     } else {
       res.status(201).send(id);
+    }
+  });
+});
+
+app.put('/polls/:id', (req, res) => {
+  console.log('inside put route:', req.params.id, req.body);
+  controllers.updatePoll(req.params.id, req.body, (err, data) => {
+    if (err) {
+      console.log('Error getting poll: ', err);
+      res.status(400).send();
+    } else {
+      res.status(200).send(data);
     }
   });
 });

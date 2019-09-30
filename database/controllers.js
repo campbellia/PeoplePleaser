@@ -25,12 +25,19 @@ module.exports = {
       }
     })
     .catch(function(error) {
-        console.log('in catch', error);
-        callback(error);
+      callback(error);
     });
   },
-  updatePoll: (data) => {
-    console.log("UPDATE POLL WITH:", data);
+  updatePoll: (id, poll, callback) => {
+    console.log('inside update controller,', id, poll);
+    var docRef = db.collection("polls").doc(id);
+    docRef.update({options: poll.options, totalVotes: poll.totalVotes})
+    .then(doc => {
+      callback(null, doc);
+    })
+    .catch(function(error) {
+      callback(error);
+    });
   },
   deletePoll: (linkId) => {
     console.log("DELETE POLL WITH:", id);
