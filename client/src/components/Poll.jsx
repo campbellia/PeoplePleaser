@@ -56,9 +56,12 @@ const Poll = ({ match }) => {
       });
     }
 
+  var url = `/polls/${match.params.pollId}/vote`
   return (
     <div className="poll">
-      <h1>{poll.name}</h1>
+      <button className="btn">
+          Copy Shareable Link
+      </button>
       <form onSubmit={handleSubmitVotes}>
         {options.map(option => {
           return (

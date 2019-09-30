@@ -6,6 +6,18 @@
   <body>
     <div id="app"></div>
     <script src="/dist/bundle.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+    <script>
+      var clipboard = new ClipboardJS('.btn', {
+        text: function() {
+            return window.location.href;
+        }});
+      clipboard.on('success', function(e) {
+          console.log(e);
+      });
+      clipboard.on('error', function(e) {
+          console.log(e);
+      });
+    </script>
   </body>
 </html>
