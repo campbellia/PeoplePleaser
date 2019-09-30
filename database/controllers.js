@@ -29,7 +29,6 @@ module.exports = {
     });
   },
   updatePoll: (id, poll, callback) => {
-    console.log('inside update controller,', id, poll);
     var docRef = db.collection("polls").doc(id);
     docRef.update({options: poll.options, totalVotes: poll.totalVotes})
     .then(doc => {

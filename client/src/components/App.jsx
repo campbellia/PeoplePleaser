@@ -2,49 +2,16 @@ import React, { useState } from 'react';
 import CreatePollForm from './CreatePollForm.jsx';
 import Poll from './Poll.jsx';
 import axios from 'axios';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-const App = ({pollId}) => {
+const App = () => {
 
-  const [poll, setPoll] = useState(pollId ? pollId : null);
-  const [results, setResults] = useState(null);
-
-  const onFormSubmit = (name, options) => {
-    var pollInfo = {
-      name: name,
-      options: options,
-      totalVotes: 0
-    }
-    axios.post('/polls', pollInfo)
-      .then(res => {
-        setPoll(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-
-  const handleSubmitVotes = (id, results) => {
-    var url = `/polls/${id}`;
-    console.log('results:', results);
-    axios.put(url, results)
-      .then((res) => {
-        console.log('RESPONSE:', res);
-      })
-      .catch(err => {
-        console.log('ERR:', err);
-      });
-    //display results/ranking?
-  }
-
-  const getComponents = () => {
-    if (poll) {
-      return <Poll handleSubmitVotes={handleSubmitVotes} pollId={poll}/>;
-    } else {
-      return <CreatePollForm onFormSubmit={onFormSubmit}/>;
-    }
-  }
-
-  return (getComponents());
+  return (
+    <Router>
+      <Route exact={true} path="/" component={CreatePollForm}/>
+      <Route path="/polls/:pollId/vote" component={Poll}/>
+    </Router>
+  );
 
 }
 

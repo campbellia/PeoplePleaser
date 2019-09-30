@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from '@material-ui/core/Slider';
 import axios from 'axios';
 
-const Poll = (props) => {
+const Poll = ({ match }) => {
   const [poll, setPoll] = useState({
     name: "Loading...",
     options: {},
@@ -18,7 +18,7 @@ const Poll = (props) => {
   const [results, setResults] = useState(neutralResults);
 
   const getPoll = () => {
-    var url = `/polls/${props.pollId}`;
+    var url = `/polls/${match.params.pollId}`;
     axios.get(url)
       .then(result => {
         setPoll(result.data);
@@ -39,21 +39,27 @@ const Poll = (props) => {
 
   const handleSubmitVotes = (event) => {
     event.preventDefault();
-    if (results[''] !== undefined) {
-      delete results[''];
-    }
     const pollData = {};
     pollData.name = poll.name;
     pollData.options = results;
+    if (pollData.options[''] !== undefined) {
+      delete pollData.options[''];
+    }
     pollData.totalVotes = poll.totalVotes++;
-    console.log('polldata:', pollData);
-    props.handleSubmitVotes(props.pollId, pollData);
-  }
+    var url = `/polls/${match.params.pollId}`;
+    axios.put(url, results)
+      .then((res) => {
+        console.log('RESPONSE:', res);
+      })
+      .catch(err => {
+        console.log('ERR:', err);
+      });
+    }
 
   return (
     <div className="poll">
       <h1>{poll.name}</h1>
-      <form onSubmit={(e) => {handleSubmitVotes(e)}}>
+      <form onSubmit={handleSubmitVotes}>
         {options.map(option => {
           return (
           <div className="option">
