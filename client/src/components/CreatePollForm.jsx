@@ -23,19 +23,23 @@ const CreatePollForm = (props) => {
 
   const onFormSubmit = (e) => {
     e.preventDefault();
-    props.onFormSubmit(name, options);
+    var optionsObj = {};
+    options.forEach(option => {
+      optionsObj[option] = 0;
+    });
+    props.onFormSubmit(name, optionsObj);
   }
 
   return (
     <div>
       <form onSubmit={(e) => {onFormSubmit(e)}}>
         Name:<input type="text" onChange={(e) => {setName(e.target.value)}}></input>
-        <input type="submit" value="New Poll"></input>
+        <input id="createPoll" type="submit" value="New Poll"></input>
       </form>
         Options: {getOptionsList()}
       <form onSubmit={(e) => {handleAddOption(e)}}>
         New Option: <input type="text" onChange={(e) => {setNew(e.target.value)}}></input>
-        <input type="submit" value="Add"></input>
+        <input id="addOption" type="submit" value="Add"></input>
       </form>
     </div>
   );
