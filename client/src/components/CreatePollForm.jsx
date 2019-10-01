@@ -1,6 +1,44 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import { Grid, TextField } from '@material-ui/core';
+
+
+// const FormContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: #90baad;
+//   border-radius: 25px;
+//   border: 2px solid #;
+//   padding: 20px;
+//   width: 300px;
+//   height: 200px;
+//   margin: auto;
+//   margin-top: 10%
+// `;
+
+// const AddOptionButton = styled.input`
+//   background-color: #7a5d0d;
+//   width: 50px;
+// `;
+
+// const AddOptionInput = styled.div`
+//   display: flex;
+//   align-items: center;
+//   height: 50px;
+//   margin: 20px;
+// `;
+
+// const CreatePollButton = styled.button`
+//   width: 100%;
+//   height: 50px;
+//   margin-top: 10px;
+//   background-color: #adf6b1;
+//   border-radius: 3px;
+//   border: none;
+// `;
 
 const CreatePollForm = (props) => {
 
@@ -20,7 +58,7 @@ const CreatePollForm = (props) => {
         return <div>{option}</div>;
       });
     } else {
-      return <div>none</div>;
+      return <div></div>;
     }
   }
 
@@ -49,23 +87,29 @@ const CreatePollForm = (props) => {
       return (<Redirect to={url}/>);
     } else {
       return (
-        <div>
+        <Grid container>
+          <Grid item>
+            <form onSubmit={(e) => {handleAddOption(e)}}>
+                <input type="submit" value="+"></input>
+                <input type="text" onChange={(e) => {setNew(e.target.value)}}></input>
+            </form>
+          </Grid>
+          <Grid item>
           <form onSubmit={(e) => {onFormSubmit(e)}}>
-            Name:<input type="text" onChange={(e) => {setName(e.target.value)}}></input>
-            <input id="createPoll" type="submit" value="New Poll"></input>
+            <label htmlFor="title">Title</label>
+            <input id="title" type="text" onChange={(e) => {setName(e.target.value)}}></input>
+            {getOptionsList()}
+            <button id="createPoll" type="submit">Create Poll</button>
           </form>
-            Options: {getOptionsList()}
-          <form onSubmit={(e) => {handleAddOption(e)}}>
-            New Option: <input type="text" onChange={(e) => {setNew(e.target.value)}}></input>
-            <input id="addOption" type="submit" value="Add"></input>
-          </form>
-        </div>
+          </Grid>
+
+        </Grid>
       );
     }
   }
 
   return (
-    getComponents()
+      getComponents()
   );
 }
 
