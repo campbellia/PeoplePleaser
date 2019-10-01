@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {Container, Card, CardActions, Button, Grid} from '@material-ui/core';
 
 const Results = ({match}) => {
 
@@ -47,22 +48,28 @@ const Results = ({match}) => {
   const getComponents = () => {
     if (showResults) {
       return (
-        <div className="results">
-          <h1>Results</h1>
-          <ol>
-            {calculateRankings().map(item => {
-              return <li>{item[0]} : {item[1]} </li>
-            })}
-          </ol>
-        </div>
+        <Container maxWidth="lg">
+          <Card>
+            <h1>Results</h1>
+            <ol>
+              {calculateRankings().map(item => {
+                return <li>{item[0]} : {item[1]} </li>
+              })}
+            </ol>
+          </Card>
+        </Container>
       );
     } else {
       return (
-        <div className="totalVotes">
-          <h1>Total Votes Submitted: {poll.totalVotes}</h1>
-          <button onClick={handleGetResults}>View Results</button>
-          <p>(Voting will be disabled after viewing results.)</p>
-        </div>
+        <Container maxWidth="lg">
+          <Card>
+              Total Votes Submitted: {poll.totalVotes}
+            <CardActions>
+              <Button onClick={handleGetResults}>VIEW RESULTS</Button>
+              <p>(Voting will be disabled after viewing results.)</p>
+            </CardActions>
+          </Card>
+        </Container>
       );
     }
   }

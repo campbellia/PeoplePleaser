@@ -1,61 +1,25 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Grid, TextField } from '@material-ui/core';
-
-
-// const FormContainer = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: #90baad;
-//   border-radius: 25px;
-//   border: 2px solid #;
-//   padding: 20px;
-//   width: 300px;
-//   height: 200px;
-//   margin: auto;
-//   margin-top: 10%
-// `;
-
-// const AddOptionButton = styled.input`
-//   background-color: #7a5d0d;
-//   width: 50px;
-// `;
-
-// const AddOptionInput = styled.div`
-//   display: flex;
-//   align-items: center;
-//   height: 50px;
-//   margin: 20px;
-// `;
-
-// const CreatePollButton = styled.button`
-//   width: 100%;
-//   height: 50px;
-//   margin-top: 10px;
-//   background-color: #adf6b1;
-//   border-radius: 3px;
-//   border: none;
-// `;
+import { Grid, TextField, Container } from '@material-ui/core';
 
 const CreatePollForm = (props) => {
 
   const [name, setName] = useState(null);
   const [options, setOptions] = useState([]);
-  const [newOption, setNew] = useState(null);
+  const [newOption, setNew] = useState('');
   const [redirect, setRedirect] = useState(false);
 
   const handleAddOption = (e) => {
     e.preventDefault();
     setOptions(options.concat(newOption));
+    setNew('');
   }
 
   const getOptionsList = () => {
     if (options.length) {
       return options.map(option => {
-        return <div>{option}</div>;
+        return <Grid item><div>{option}</div></Grid>;
       });
     } else {
       return <div></div>;
@@ -87,23 +51,28 @@ const CreatePollForm = (props) => {
       return (<Redirect to={url}/>);
     } else {
       return (
-        <Grid container>
-          <Grid item>
-            <form onSubmit={(e) => {handleAddOption(e)}}>
-                <input type="submit" value="+"></input>
-                <input type="text" onChange={(e) => {setNew(e.target.value)}}></input>
+        <Container maxWidth="sm">
+          <Grid container direction="column" spacing={3}>
+            <Grid item>
+              <h4>Options</h4>
+              <form onSubmit={(e) => {handleAddOption(e)}}>
+                  <input type="text" value={newOption} onChange={(e) => {setNew(e.target.value)}}></input>
+                  <input type="submit" value="+"></input>
+              </form>
+            </Grid>
+            <Grid container item spacing={1} direction="column" justify-content="space-around">
+              {getOptionsList()}
+            </Grid>
+            <Grid item>
+            <form onSubmit={(e) => {onFormSubmit(e)}}>
+              <h4>Poll Name</h4>
+              <input id="title" type="text" onChange={(e) => {setName(e.target.value)}}></input>
+              <button id="createPoll" type="submit">Create Poll</button>
             </form>
-          </Grid>
-          <Grid item>
-          <form onSubmit={(e) => {onFormSubmit(e)}}>
-            <label htmlFor="title">Title</label>
-            <input id="title" type="text" onChange={(e) => {setName(e.target.value)}}></input>
-            {getOptionsList()}
-            <button id="createPoll" type="submit">Create Poll</button>
-          </form>
-          </Grid>
+            </Grid>
 
-        </Grid>
+          </Grid>
+        </Container>
       );
     }
   }

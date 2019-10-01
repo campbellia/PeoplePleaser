@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Slider from '@material-ui/core/Slider';
+import {Slider, Grid, Container, Typography, Card, CardActions, CardActionArea, CardHeader, CardContent, Button} from '@material-ui/core';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
 
@@ -55,7 +55,6 @@ const Poll = ({ match }) => {
       delete pollData.options[''];
     }
     var url = `/polls/${match.params.pollId}`;
-    console.log('Polldata from poll: ', pollData, url);
     axios.put(url, pollData)
       .then(() => {
         var url = `/polls/${match.params.pollId}/results`;
@@ -69,36 +68,46 @@ const Poll = ({ match }) => {
   const getComponents = () => {
     if (poll.terminated) {
       return (
-        <div>
-          <h1>Voting has ended on this poll.</h1>
-          <Link to={`/polls/${match.params.pollId}/results`}>View Results</Link>
-        </div>
+        <Container maxWidth="sm">
+          <Card>
+            <Typography align="center" variant="h1" component="h1">Voting has ended for "{poll.name}"
+            </Typography>
+            <CardActions>
+              <Link to={`/polls/${match.params.pollId}/results`}>View Results</Link>
+            </CardActions>
+          </Card>
+        </Container>
       );
     } else if (!redirect) {
       return (
-      <div className="poll">
-        <button className="btn">
-            Copy Shareable Link
-        </button>
-        <form onSubmit={handleSubmitVotes}>
-          {options.map(option => {
-            return (
-            <div className="option">
-              <h4>{option}</h4>
-              <Slider
-                defaultValue={0}
-                step={1}
-                marks
-                min={-5}
-                max={5}
-                onChange={(e, val) => {onSliderChange(val, option)}}
-                valueLabelDisplay={'on'}
-              />
-            </div>)
-          })}
-          <input type="submit" value="Submit Votes"></input>
-        </form>
-      </div>
+      <Card >
+       <Typography align="center" variant="h2" component="h2">{poll.name}</Typography>
+        <CardContent>
+          <form onSubmit={handleSubmitVotes}>
+            {options.map(option => {
+              return (
+              <div className="option">
+                <h4>{option}</h4>
+                <Slider
+                  defaultValue={0}
+                  step={1}
+                  marks
+                  min={-5}
+                  max={5}
+                  onChange={(e, val) => {onSliderChange(val, option)}}
+                  valueLabelDisplay={'on'}
+                />
+              </div>)
+            })}
+              <Grid container justify="space-between">
+              <Button className="btn" size="small" color="primary">
+                SHARE POLL
+              </Button>
+              <Button type="submit" value="Submit Votes">SUBMIT VOTES</Button>
+              </Grid>
+          </form>
+        </CardContent>
+      </Card>
       )
     } else {
       return <Redirect to={redirect}/>
