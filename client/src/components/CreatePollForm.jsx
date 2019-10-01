@@ -28,12 +28,13 @@ const CreatePollForm = (props) => {
     e.preventDefault();
     var optionsObj = {};
     options.forEach(option => {
-      optionsObj[option] = 0;
+      optionsObj[option] = [];
     });
     var pollInfo = {
       name: name,
       options: optionsObj,
-      totalVotes: 0
+      totalVotes: 0,
+      terminated: false
     }
     axios.post('/polls', pollInfo)
       .then((res) => {setRedirect(res.data)})

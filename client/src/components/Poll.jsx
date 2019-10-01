@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Slider from '@material-ui/core/Slider';
 import axios from 'axios';
+import { Redirect, Link } from 'react-router-dom';
 
 const Poll = ({ match }) => {
   const [poll, setPoll] = useState({
     name: "Loading...",
     options: {},
-    totalVotes: 0
+    totalVotes: 0,
+    terminated: false
   });
 
   var neutralResults = {};
@@ -16,6 +18,7 @@ const Poll = ({ match }) => {
   });
 
   const [results, setResults] = useState(neutralResults);
+  const [redirect, setRedirect] = useState(false);
 
   const getPoll = () => {
     var url = `/polls/${match.params.pollId}`;
@@ -34,56 +37,69 @@ const Poll = ({ match }) => {
     var newResults = {};
     Object.assign(newResults, results);
     newResults[e.target.id] = val;
+    console.log('newresults:', newResults);
     setResults(newResults);
   }
 
   const handleSubmitVotes = (event) => {
     event.preventDefault();
     const pollData = {};
-    pollData.name = poll.name;
     pollData.options = results;
+    pollData.terminated = false;
     if (pollData.options[''] !== undefined) {
       delete pollData.options[''];
     }
-    pollData.totalVotes = poll.totalVotes++;
     var url = `/polls/${match.params.pollId}`;
-    axios.put(url, results)
-      .then((res) => {
-        console.log('RESPONSE:', res);
+    console.log('Polldata from poll: ', pollData, url);
+    axios.put(url, pollData)
+      .then(() => {
+        var url = `/polls/${match.params.pollId}/results`;
+        setRedirect(url);
       })
       .catch(err => {
         console.log('ERR:', err);
       });
     }
 
-  var url = `/polls/${match.params.pollId}/vote`
-  return (
-    <div className="poll">
-      <button className="btn">
-          Copy Shareable Link
-      </button>
-      <form onSubmit={handleSubmitVotes}>
-        {options.map(option => {
-          return (
-          <div className="option">
-            <h4>{option}</h4>
-            <Slider
-              defaultValue={0}
-              step={1}
-              marks
-              min={-5}
-              max={5}
-              id={option}
-              onChange={onSliderChange}
-            />
-          </div>
-          )
-        })}
-        <input type="submit" value="Submit Votes"></input>
-      </form>
-    </div>
-  );
-
+  const getComponents = () => {
+    if (poll.terminated) {
+      return (
+        <div>
+          <h1>Voting has ended on this poll.</h1>
+          <Link to={`/polls/${match.params.pollId}/results`}>View Results</Link>
+        </div>
+      );
+    } else if (!redirect) {
+      return (
+      <div className="poll">
+        <button className="btn">
+            Copy Shareable Link
+        </button>
+        <form onSubmit={handleSubmitVotes}>
+          {options.map(option => {
+            return (
+            <div className="option">
+              <h4>{option}</h4>
+              <Slider
+                defaultValue={0}
+                step={1}
+                marks
+                min={-5}
+                max={5}
+                id={option}
+                onChange={onSliderChange}
+              />
+            </div>)
+          })}
+          <input type="submit" value="Submit Votes"></input>
+        </form>
+      </div>
+      )
+    } else {
+      return <Redirect to={redirect}/>
+    }
+  }
+  return (getComponents());
 }
 
 export default Poll;
