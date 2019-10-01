@@ -33,10 +33,15 @@ const Poll = ({ match }) => {
 
   useEffect(() => {getPoll()}, []);
 
-  const onSliderChange = (e, val) => {
+  const onSliderChange = (val, optionName) => {
     var newResults = {};
-    Object.assign(newResults, results);
-    newResults[e.target.id] = val;
+    for (let option in poll.options) {
+      newResults[option] = 0;
+    }
+    newResults = Object.assign(newResults, results);
+    //somehow it's possible to click on things that don't have the id and
+    //get an empty string (though the slider moves)
+    newResults[optionName] = val;
     console.log('newresults:', newResults);
     setResults(newResults);
   }
@@ -86,8 +91,8 @@ const Poll = ({ match }) => {
                 marks
                 min={-5}
                 max={5}
-                id={option}
-                onChange={onSliderChange}
+                onChange={(e, val) => {onSliderChange(val, option)}}
+                valueLabelDisplay={'on'}
               />
             </div>)
           })}
