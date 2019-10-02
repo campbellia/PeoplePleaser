@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom'
 import {Container, Card, Grid, CardActions, Button, List, Divider, ListItem, ListItemText, Typography, Table, TableBody, TableHead, TableCell, TableRow } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+
+const useStyles = makeStyles(theme => ({
+  button: {
+    width: 150,
+    height: 50
+  },
+  container: {
+    marginTop: theme.spacing(5)
+  }
+}));
 
 const Results = ({match}) => {
+  const classes = useStyles();
 
   const [poll, setPoll] = useState({name: '', options: {}, totalVotes: 0});
+  const [redirect, setRedirect] = useState(false);
 
   const getResults = () => {
     var url = `/polls/${match.params.pollId}`;
@@ -34,6 +48,7 @@ const Results = ({match}) => {
       });
   }
 
+
   const calculateRankings = () => {
     var ranks = [];
     for (var option in poll.options) {
@@ -49,9 +64,13 @@ const Results = ({match}) => {
   }
 
   const getComponents = () => {
-    if (poll.terminated) {
+    if (redirect) {
+      return <Redirect to={redirect}/>
+    } else if (poll.terminated) {
       return (
         <Container maxWidth="sm">
+          <Grid container direction="column" spacing={3}>
+            <Grid item>
              <Table>
                 <TableHead>
                   <TableRow>
@@ -88,21 +107,30 @@ const Results = ({match}) => {
                   );
                 }
               })}
-            </TableBody>
-          </Table>
+              </TableBody>
+            </Table>
+            </Grid>
+            <Grid item>
+              <Button size="large" variant="contained" color="primary" onClick={() => {setRedirect(`/polls/${match.params.pollId}/vote`)}}>Restart Poll?</Button>
+            </Grid>
+          </Grid>
         </Container>
       );
     } else {
       return (
-        <Container maxWidth="sm">
-          <Grid container>
+        <Container className={classes.container} maxWidth="sm">
+          <Grid container spacing={2} direction="column" alignItems="center">
             <Grid item>
               <Typography align="center" variant="h3" component="h3">Total Votes Submitted: {poll.totalVotes}</Typography>
             </Grid>
-            <Grid item>
-              <Button variant="contained" color="primary" onClick={handleViewResults}>VIEW RESULTS</Button>
-              <p>(Voting will be disabled after viewing results.)</p>
-            </Grid>
+              <Grid item container direction="column" alignItems="center" spacing={1}>
+                <Grid item>
+                  <Button className={classes.button} variant="contained" color="primary" onClick={handleViewResults}>VIEW RESULTS</Button>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2" component="span">Voting will be disabled after viewing results</Typography>
+                </Grid>
+              </Grid>
           </Grid>
         </Container>
       );
