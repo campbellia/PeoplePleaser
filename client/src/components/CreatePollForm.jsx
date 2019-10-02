@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Grid, TextField, Container } from '@material-ui/core';
+import { Grid, TextField, Container, Button } from '@material-ui/core';
 
 const CreatePollForm = (props) => {
 
@@ -56,7 +56,7 @@ const CreatePollForm = (props) => {
             <Grid item>
               <h4>Options</h4>
               <form onSubmit={(e) => {handleAddOption(e)}}>
-                  <input type="text" value={newOption} onChange={(e) => {setNew(e.target.value)}}></input>
+                  <input type="text" value={newOption} onChange={(e) => {setNew(e.target.value)}} autocomplete="off"></input>
                   <input type="submit" value="+"></input>
               </form>
             </Grid>
@@ -66,8 +66,8 @@ const CreatePollForm = (props) => {
             <Grid item>
             <form onSubmit={(e) => {onFormSubmit(e)}}>
               <h4>Poll Name</h4>
-              <input id="title" type="text" onChange={(e) => {setName(e.target.value)}}></input>
-              <button id="createPoll" type="submit">Create Poll</button>
+              <input id="title" type="text" onChange={(e) => {setName(e.target.value)}} autocomplete="off"></input>
+              <Button id="createPoll" size="small" type="submit" variant="contained" color="primary">Create Poll</Button>
             </form>
             </Grid>
 

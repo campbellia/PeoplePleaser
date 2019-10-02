@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Container, Card, CardActions, Button, Grid} from '@material-ui/core';
+import {Container, Card, Grid, CardActions, Button, List, Divider, ListItem, ListItemText, Typography, Table, TableBody, TableHead, TableCell, TableRow } from '@material-ui/core';
+import styled from 'styled-components';
+
+const WinnerTableCell = styled(TableCell)`
+  font-weight: bold;
+  font-size: 3rem;
+  background-color: "green";
+`;
 
 const Results = ({match}) => {
 
@@ -48,27 +55,60 @@ const Results = ({match}) => {
   const getComponents = () => {
     if (showResults) {
       return (
-        <Container maxWidth="lg">
-          <Card>
-            <h1>Results</h1>
-            <ol>
-              {calculateRankings().map(item => {
-                return <li>{item[0]} : {item[1]} </li>
+        <Container maxWidth="sm">
+             <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <h2>Results</h2>
+                    </TableCell>
+                    <TableCell>
+
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                {calculateRankings().map((item, i) => {
+                if (i === 0) {
+                  return (
+                    <TableRow>
+                      <TableCell>
+                        {item[0]}
+                      </TableCell>
+                      <TableCell>
+                        {item[1]}
+                      </TableCell>
+                    </TableRow>
+                  );
+                } else {
+                  return (
+                    <TableRow>
+                      <TableCell>
+                        {item[0]}
+                      </TableCell>
+                      <TableCell>
+                        {item[1]}
+                      </TableCell>
+                    </TableRow>
+                  );
+                }
               })}
-            </ol>
-          </Card>
+            </TableBody>
+          </Table>
         </Container>
       );
     } else {
       return (
-        <Container maxWidth="lg">
-          <Card>
-              Total Votes Submitted: {poll.totalVotes}
-            <CardActions>
-              <Button onClick={handleGetResults}>VIEW RESULTS</Button>
+        <Container maxWidth="sm">
+          <Grid container>
+            <Grid item>
+              <Typography align="center" variant="h3" component="h3">Total Votes Submitted: {poll.totalVotes}</Typography>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" color="primary" onClick={handleGetResults}>VIEW RESULTS</Button>
               <p>(Voting will be disabled after viewing results.)</p>
-            </CardActions>
-          </Card>
+            </Grid>
+          </Grid>
         </Container>
       );
     }

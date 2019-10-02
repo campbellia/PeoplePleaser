@@ -2,6 +2,17 @@ import React, { useState, useEffect } from 'react';
 import {Slider, Grid, Container, Typography, Card, CardActions, CardActionArea, CardHeader, CardContent, Button} from '@material-ui/core';
 import axios from 'axios';
 import { Redirect, Link } from 'react-router-dom';
+import styled from 'styled-components';
+
+const ResultsLink = styled(Link)`
+  font-weight: bold;
+  text-decoration: none;
+  color: #ffffff;
+  &visited: {
+    color: #ffffff;
+  }
+`;
+
 
 const Poll = ({ match }) => {
   const [poll, setPoll] = useState({
@@ -69,20 +80,20 @@ const Poll = ({ match }) => {
     if (poll.terminated) {
       return (
         <Container maxWidth="sm">
-          <Card>
-            <Typography align="center" variant="h1" component="h1">Voting has ended for "{poll.name}"
-            </Typography>
-            <CardActions>
-              <Link to={`/polls/${match.params.pollId}/results`}>View Results</Link>
-            </CardActions>
-          </Card>
+          <Grid container display="column" spacing={2}>
+            <Grid item>
+              <Typography align="center" variant="h3">Voting has ended.</Typography>
+            </Grid>
+            <Grid item>
+              <Button size="large" variant="contained" color="primary"><ResultsLink to={`/polls/${match.params.pollId}/results`}>View Results</ResultsLink></Button>
+            </Grid>
+          </Grid>
         </Container>
       );
     } else if (!redirect) {
       return (
-      <Card >
+      <Container >
        <Typography align="center" variant="h2" component="h2">{poll.name}</Typography>
-        <CardContent>
           <form onSubmit={handleSubmitVotes}>
             {options.map(option => {
               return (
@@ -100,14 +111,13 @@ const Poll = ({ match }) => {
               </div>)
             })}
               <Grid container justify="space-between">
-              <Button className="btn" size="small" color="primary">
+              <Button className="btn" variant="contained" color="primary">
                 SHARE POLL
               </Button>
-              <Button type="submit" value="Submit Votes">SUBMIT VOTES</Button>
+              <Button type="submit" value="Submit Votes" variant="contained" color="primary">SUBMIT VOTES</Button>
               </Grid>
           </form>
-        </CardContent>
-      </Card>
+      </Container>
       )
     } else {
       return <Redirect to={redirect}/>
