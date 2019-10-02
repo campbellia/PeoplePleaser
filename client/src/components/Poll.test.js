@@ -12,3 +12,8 @@ describe('Poll', () => {
     expect(component).toMatchSnapshot();
   });
 });
+
+//should render with correct options etc.
+//should allow votes to be made
+//should submit votes in post request with correct data
+//should not render options for terminated poll

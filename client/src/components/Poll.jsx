@@ -10,6 +10,9 @@ const useStyles = makeStyles(theme => ({
     fontWeight: "bold",
     textDecoration: "none",
     color: "#ffffff"
+  },
+  header: {
+    marginTop: 10
   }
 }));
 
@@ -100,7 +103,7 @@ const Poll = ({ match }) => {
     } else if (!redirect) {
       return (
       <Container >
-       <Typography align="center" variant="h2" component="h2">{poll.name}</Typography>
+       <Typography className={classes.header} align="center" variant="h4" component="h4">{poll.name}</Typography>
           <form onSubmit={handleSubmitVotes}>
             {options.map(option => {
               return (

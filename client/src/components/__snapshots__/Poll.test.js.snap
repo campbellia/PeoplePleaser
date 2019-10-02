@@ -1,101 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Poll should render correctly 1`] = `
-<div
-  className="poll"
->
-  <h1>
-    Poll Name
-  </h1>
+<WithStyles(ForwardRef(Container))>
+  <WithStyles(ForwardRef(Typography))
+    align="center"
+    className="makeStyles-header-2"
+    component="h4"
+    variant="h4"
+  />
   <form
     onSubmit={[Function]}
   >
-    <div
-      className="option"
+    <WithStyles(ForwardRef(Grid))
+      container={true}
+      justify="space-between"
     >
-      <h4>
-        option1
-      </h4>
-      <WithStyles(ForwardRef(Slider))
-        defaultValue={0}
-        id="option1"
-        marks={true}
-        max={5}
-        min={-5}
-        onChange={[Function]}
-        step={1}
-      />
-    </div>
-    <div
-      className="option"
-    >
-      <h4>
-        option2
-      </h4>
-      <WithStyles(ForwardRef(Slider))
-        defaultValue={0}
-        id="option2"
-        marks={true}
-        max={5}
-        min={-5}
-        onChange={[Function]}
-        step={1}
-      />
-    </div>
-    <input
-      type="submit"
-      value="Submit Votes"
-    />
+      <WithStyles(ForwardRef(Button))
+        className="btn"
+        color="primary"
+        variant="contained"
+      >
+        SHARE POLL
+      </WithStyles(ForwardRef(Button))>
+      <WithStyles(ForwardRef(Button))
+        color="primary"
+        type="submit"
+        value="Submit Votes"
+        variant="contained"
+      >
+        SUBMIT VOTES
+      </WithStyles(ForwardRef(Button))>
+    </WithStyles(ForwardRef(Grid))>
   </form>
-</div>
-`;
-
-exports[`Poll should render correctly in "debug" mode 1`] = `
-<div
-  className="poll"
->
-  <h1>
-    Poll Name
-  </h1>
-  <form
-    onSubmit={[Function]}
-  >
-    <div
-      className="option"
-    >
-      <h4>
-        option1
-      </h4>
-      <WithStyles(ForwardRef(Slider))
-        defaultValue={0}
-        id="option1"
-        marks={true}
-        max={5}
-        min={-5}
-        onChange={[Function]}
-        step={1}
-      />
-    </div>
-    <div
-      className="option"
-    >
-      <h4>
-        option2
-      </h4>
-      <WithStyles(ForwardRef(Slider))
-        defaultValue={0}
-        id="option2"
-        marks={true}
-        max={5}
-        min={-5}
-        onChange={[Function]}
-        step={1}
-      />
-    </div>
-    <input
-      type="submit"
-      value="Submit Votes"
-    />
-  </form>
-</div>
+</WithStyles(ForwardRef(Container))>
 `;

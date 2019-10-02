@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OptionsList should render correctly 1`] = `
+<WithStyles(ForwardRef(Paper))>
+  <WithStyles(ForwardRef(Table))>
+    <WithStyles(ForwardRef(TableHead))>
+      <WithStyles(ForwardRef(TableRow))>
+        <WithStyles(ForwardRef(TableCell))>
+          <WithStyles(ForwardRef(Typography))
+            color="inherit"
+            variant="h6"
+          >
+            OPTIONS
+          </WithStyles(ForwardRef(Typography))>
+        </WithStyles(ForwardRef(TableCell))>
+      </WithStyles(ForwardRef(TableRow))>
+    </WithStyles(ForwardRef(TableHead))>
+    <WithStyles(ForwardRef(TableBody))>
+      <WithStyles(ForwardRef(TableRow))>
+        <WithStyles(ForwardRef(TableCell))>
+          Add Some Options!
+        </WithStyles(ForwardRef(TableCell))>
+      </WithStyles(ForwardRef(TableRow))>
+      <WithStyles(ForwardRef(TableRow))>
+        <WithStyles(ForwardRef(TableCell))
+          className="makeStyles-narrowCell-1"
+        >
+          <AddOptionsForm
+            handleAddOption={[Function]}
+          />
+        </WithStyles(ForwardRef(TableCell))>
+      </WithStyles(ForwardRef(TableRow))>
+    </WithStyles(ForwardRef(TableBody))>
+  </WithStyles(ForwardRef(Table))>
+</WithStyles(ForwardRef(Paper))>
+`;
