@@ -40,7 +40,8 @@ module.exports = {
           for (let option in data.options) {
             newOptions[option] = data.options[option].concat(poll.options[option]);
           }
-          var totalVotes = data.totalVotes + 1;
+          var newOptions = data.terminated ? poll.options : newOptions;
+          var totalVotes = data.terminated ? 0 : data.totalVotes + 1;
           transaction.update(docRef, {options: newOptions, totalVotes: totalVotes, terminated: poll.terminated});
         }
       }).then(() => {

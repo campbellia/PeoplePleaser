@@ -1,18 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {Container, Card, Grid, CardActions, Button, List, Divider, ListItem, ListItemText, Typography, Table, TableBody, TableHead, TableCell, TableRow } from '@material-ui/core';
-import styled from 'styled-components';
-
-const WinnerTableCell = styled(TableCell)`
-  font-weight: bold;
-  font-size: 3rem;
-  background-color: "green";
-`;
 
 const Results = ({match}) => {
 
   const [poll, setPoll] = useState({name: '', options: {}, totalVotes: 0});
-  const [showResults, setShowResults] = useState(false);
 
   const getResults = () => {
     var url = `/polls/${match.params.pollId}`;
@@ -25,13 +17,17 @@ const Results = ({match}) => {
       })
   }
 
-  useEffect(() => {getResults()}, []);
+  useEffect(() => {
+    getResults();
+  }, []);
 
-  const handleGetResults = () => {
-    axios.put(`/polls/${match.params.pollId}/end`, {terminated: true})
-      .then((res) => {
-        console.log('RESPONSE:', res);
-        setShowResults(true);
+  const handleViewResults = () => {
+    axios.put(`/polls/${match.params.pollId}`, {terminated: true})
+      .then(() => {
+        var terminatedPollObj = {};
+        Object.assign(terminatedPollObj, poll);
+        terminatedPollObj.terminated = true;
+        setPoll(terminatedPollObj);
       })
       .catch(err => {
         console.log('ERR:', err);
@@ -53,7 +49,7 @@ const Results = ({match}) => {
   }
 
   const getComponents = () => {
-    if (showResults) {
+    if (poll.terminated) {
       return (
         <Container maxWidth="sm">
              <Table>
@@ -63,7 +59,6 @@ const Results = ({match}) => {
                       <h2>Results</h2>
                     </TableCell>
                     <TableCell>
-
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -105,7 +100,7 @@ const Results = ({match}) => {
               <Typography align="center" variant="h3" component="h3">Total Votes Submitted: {poll.totalVotes}</Typography>
             </Grid>
             <Grid item>
-              <Button variant="contained" color="primary" onClick={handleGetResults}>VIEW RESULTS</Button>
+              <Button variant="contained" color="primary" onClick={handleViewResults}>VIEW RESULTS</Button>
               <p>(Voting will be disabled after viewing results.)</p>
             </Grid>
           </Grid>

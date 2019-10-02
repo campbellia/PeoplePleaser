@@ -1,22 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import {Slider, Grid, Container, Typography, Card, CardActions, CardActionArea, CardHeader, CardContent, Button} from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import { Redirect, Link } from 'react-router-dom';
-import styled from 'styled-components';
+import {Slider, Grid, Container, Typography, Button} from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import EndedPoll from './EndedPoll.jsx';
 
-const ResultsLink = styled(Link)`
-  font-weight: bold;
-  text-decoration: none;
-  color: #ffffff;
-  &visited: {
-    color: #ffffff;
+const useStyles = makeStyles(theme => ({
+  viewbutton: {
+    fontWeight: "bold",
+    textDecoration: "none",
+    color: "#ffffff"
   }
-`;
-
+}));
 
 const Poll = ({ match }) => {
+  const classes = useStyles();
+
   const [poll, setPoll] = useState({
-    name: "Loading...",
+    name: "",
     options: {},
     totalVotes: 0,
     terminated: false
@@ -50,10 +51,7 @@ const Poll = ({ match }) => {
       newResults[option] = 0;
     }
     newResults = Object.assign(newResults, results);
-    //somehow it's possible to click on things that don't have the id and
-    //get an empty string (though the slider moves)
     newResults[optionName] = val;
-    console.log('newresults:', newResults);
     setResults(newResults);
   }
 
@@ -76,20 +74,29 @@ const Poll = ({ match }) => {
       });
     }
 
+  const handleRestartPoll = () => {
+    var optionsObj = {};
+    options.forEach(option => {
+      optionsObj[option] = [];
+    });
+    var pollInfo = {
+      name: name,
+      options: optionsObj,
+      totalVotes: 0,
+      terminated: false
+    }
+    axios.put(`/polls/${match.params.pollId}`, pollInfo)
+      .then(() => {
+        getPoll();
+      })
+      .catch(err => {
+        console.log('ERR:', err);
+      });
+  }
+
   const getComponents = () => {
     if (poll.terminated) {
-      return (
-        <Container maxWidth="sm">
-          <Grid container display="column" spacing={2}>
-            <Grid item>
-              <Typography align="center" variant="h3">Voting has ended.</Typography>
-            </Grid>
-            <Grid item>
-              <Button size="large" variant="contained" color="primary"><ResultsLink to={`/polls/${match.params.pollId}/results`}>View Results</ResultsLink></Button>
-            </Grid>
-          </Grid>
-        </Container>
-      );
+      return <EndedPoll handleRestartPoll={handleRestartPoll} pollId={match.params.pollId}/>;
     } else if (!redirect) {
       return (
       <Container >
@@ -120,7 +127,7 @@ const Poll = ({ match }) => {
       </Container>
       )
     } else {
-      return <Redirect to={redirect}/>
+      return <Redirect to={redirect}></Redirect>
     }
   }
   return (getComponents());

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import { Grid, TextField, Container, Button, IconButton } from '@material-ui/core';
+import { Grid, TextField, Container, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import OptionsList from './OptionsList.jsx';
 
@@ -23,23 +23,33 @@ const CreatePollForm = (props) => {
     setOptions(options.concat(newOption));
   }
 
+  const handleRemoveOption = (optionIndex) => {
+    var newOptions = Array.from(options);
+    newOptions.splice(optionIndex, 1);
+    setOptions(newOptions);
+  }
+
   const onFormSubmit = (e) => {
     e.preventDefault();
-    var optionsObj = {};
-    options.forEach(option => {
-      optionsObj[option] = [];
-    });
-    var pollInfo = {
-      name: name,
-      options: optionsObj,
-      totalVotes: 0,
-      terminated: false
-    }
-    axios.post('/polls', pollInfo)
-      .then((res) => {setRedirect(res.data)})
-      .catch(err => {
-        console.log(err);
+    if (!options.length) {
+      alert('Add some options!');
+    } else {
+      var optionsObj = {};
+      options.forEach(option => {
+        optionsObj[option] = [];
       });
+      var pollInfo = {
+        name: name,
+        options: optionsObj,
+        totalVotes: 0,
+        terminated: false
+      }
+      axios.post('/polls', pollInfo)
+        .then((res) => {setRedirect(res.data)})
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 
   const getComponents = () => {
@@ -60,11 +70,11 @@ const CreatePollForm = (props) => {
                 autoComplete="off"
               />
             </Grid>
-            <Grid container item spacing={1} direction="column" justify-content="space-around" id="optionsList">
-              <OptionsList handleAddOption={handleAddOption} options={options}/>
+            <Grid item id="optionsList">
+              <OptionsList handleAddOption={handleAddOption} handleRemoveOption={handleRemoveOption} options={options}/>
             </Grid>
             <Grid item>
-              <Button id="createPoll" size="small" onClick={onFormSubmit} variant="contained" color="primary">Create Poll</Button>
+              <Button id="createPoll" size="large" onClick={onFormSubmit} variant="contained" color="primary">CREATE POLL</Button>
             </Grid>
           </Grid>
         </Container>
