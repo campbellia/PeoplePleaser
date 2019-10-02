@@ -1,15 +1,36 @@
 import React from 'react';
-import { Paper, Table, TableBody, TableRow, TableHead, TableCell } from '@material-ui/core';
+import { Paper, Table, TableBody, TableRow, TableHead, TableCell, IconButton, Grid, Typography } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
 import AddOptionsForm from './AddOptionsForm.jsx';
+import { makeStyles } from '@material-ui/styles';
 
-const OptionsList = ({ options, handleAddOption }) => {
+const useStyles = makeStyles(theme => ({
+  narrowCell: {
+    paddingTop: 0,
+    paddingBottom: 0
+  }
+}));
+
+const OptionsList = ({ options, handleRemoveOption, handleAddOption }) => {
+  const classes = useStyles();
 
   const makeOptionsList = () => {
     if (options.length) {
       return options.map((option, i) => {
         return (
           <TableRow key={i}>
-            <TableCell>{option}</TableCell>
+            <TableCell className={classes.narrowCell}>
+              <Grid container direction="row" justify="space-between" alignItems="center">
+                <Grid item>
+                  {option}
+                </Grid>
+                <Grid item >
+                  <IconButton id={i} onClick={(e) => {handleRemoveOption(e.target.id)}} aria-label="delete">
+                    <Delete />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            </TableCell>
           </TableRow>);
       });
     } else {
@@ -25,13 +46,15 @@ const OptionsList = ({ options, handleAddOption }) => {
       <Table >
         <TableHead>
           <TableRow>
-            <TableCell>OPTIONS</TableCell>
+            <TableCell>
+              <Typography color="inherit" variant="h6">OPTIONS</Typography>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {makeOptionsList()}
           <TableRow>
-            <TableCell>
+            <TableCell className={classes.narrowCell}>
               <AddOptionsForm handleAddOption={handleAddOption}/>
             </TableCell>
           </TableRow>
