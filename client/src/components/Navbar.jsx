@@ -1,6 +1,5 @@
 import React from 'react';
-import {AppBar, Toolbar} from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
+import { AppBar, Toolbar, Typography } from '@material-ui/core'
 import Logo from './Logo.jsx';
 
 const Navbar = () => {
@@ -9,7 +8,7 @@ const Navbar = () => {
       <AppBar position="static">
         <Toolbar>
           <Typography edge="start" variant="h5" color="inherit">
-            <Logo></Logo>
+            <Logo />
           </Typography>
         </Toolbar>
       </AppBar>

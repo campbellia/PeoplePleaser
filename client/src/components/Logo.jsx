@@ -1,24 +1,24 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Container } from '@material-ui/core';
-import styled from 'styled-components';
+import { makeStyles } from '@material-ui/styles';
 
-const HomeLogo = styled(Link)`
-  font-family: 'Dosis', sans-serif;
-  font-weight: bold;
-  text-decoration: none;
-  color: #0f0e21;
-  &visited: {
-    color: #0f0e21;
+const useStyles = makeStyles(theme => ({
+  logo: {
+    fontFamily: "'Dosis', sans-serif",
+    fontWeight: "bold",
+    textDecoration: "none",
+    color: "#0f0e21"
   }
-`;
+}));
 
 const Logo = () => {
+  const classes = useStyles();
   return (
     <Container>
-        <HomeLogo to="/">
+        <Link className={classes.logo} to="/">
             PEOPLEPLEASER
-        </HomeLogo>
+        </Link>
     </Container>
   );
 }
