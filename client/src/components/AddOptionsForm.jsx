@@ -16,8 +16,10 @@ const AddOptionsForm = (props) => {
 
   const handleAddOption = (e) => {
     e.preventDefault();
-    props.handleAddOption(newOption);
-    setNew('');
+    if (newOption) {
+      props.handleAddOption(newOption);
+      setNew('');
+    }
   }
 
   return (
