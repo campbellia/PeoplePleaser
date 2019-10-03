@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "decisionmaking app for social groups",
   "main": "index.js",
+  "engines": {
+    "node": "12.4.0"
+  },
   "scripts": {
     "test": "jest",
     "test-update": "jest --updateSnapshot",
