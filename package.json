@@ -28,6 +28,7 @@
     "clipboard": "^2.0.4",
     "express": "^4.17.1",
     "firebase": "^7.0.0",
+    "nodemon": "^1.19.3",
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
     "react-router-dom": "^5.1.1"
