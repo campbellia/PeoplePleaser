@@ -1,29 +1,31 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, fireEvent } from '@testing-library/react';
 import AddOptionsForm from './AddOptionsForm';
-import { ThemeProvider } from '@material-ui/styles';
 
 describe('AddOptionsForm', () => {
-  var spy;
+  const props = {
+    handleAddOption: newOption => newOption
+  }
 
-  afterEach(() => {
-    if (spy) {
-      spy.mockClear();
-    }
+  const spy = jest.spyOn(props, 'handleAddOption');
+
+  it('should not pass input to the parent if input is empty', () => {
+    const { getByLabelText } = render(
+      <AddOptionsForm handleAddOption={props.handleAddOption}/>);
+
+    fireEvent.click(getByLabelText('submitOption'));
+    expect(spy).toHaveBeenCalledTimes(0);
+
   });
 
-  it('should render correctly', () => {
-    const component = shallow(<ThemeProvider><AddOptionsForm /></ThemeProvider>);
-    expect(component).toMatchSnapshot();
-  });
+  it('should handle input submission by passing the input to its parent component', () => {
+    const { getByLabelText, getByTestId } = render(
+      <AddOptionsForm handleAddOption={props.handleAddOption}/>);
 
-  it('should allow the user to add new options to the poll', () => {
-    spy = jest.spyOn(AddOptionsForm, 'handleAddOption');
-    const component = mount(<AddOptionsForm />);
-    component.find('IconButton').simulate('click');
-    expect(spy).toHaveBeenCalled();
-
-    component.unmount();
+    fireEvent.change(getByTestId('option-input'), {target: {value: 'Ocelot'}})
+    fireEvent.click(getByLabelText('submitOption'));
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(spy).toHaveBeenCalledWith('Ocelot');
   });
 
 });

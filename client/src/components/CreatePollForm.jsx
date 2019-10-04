@@ -12,10 +12,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const CreatePollForm = (props) => {
+const CreatePollForm = () => {
   const classes = useStyles();
 
-  const [name, setName] = useState(null);
+  const [name, setName] = useState('');
   const [options, setOptions] = useState([]);
   const [redirect, setRedirect] = useState(false);
 
@@ -58,13 +58,14 @@ const CreatePollForm = (props) => {
       return (<Redirect to={url}/>);
     } else {
       return (
-        <Container maxWidth="lg">
+        <Container data-testid="createpollform" maxWidth="lg">
           <Grid container direction="column" spacing={3}>
             <Grid item>
               <TextField
                 id="createPoll"
                 label="Poll Name"
                 value={name}
+                inputProps={{"data-testid": "pollname"}}
                 onChange={(e) => {setName(e.target.value)}}
                 margin="normal"
                 autoComplete="off"
@@ -74,7 +75,7 @@ const CreatePollForm = (props) => {
               <OptionsList handleAddOption={handleAddOption} handleRemoveOption={handleRemoveOption} options={options}/>
             </Grid>
             <Grid item>
-              <Button id="createPoll" size="large" onClick={onFormSubmit} variant="contained" color="primary">CREATE POLL</Button>
+              <Button id="createPoll" size="large" onClick={onFormSubmit} variant="contained" color="primary" aria-label="createPoll">CREATE POLL</Button>
             </Grid>
           </Grid>
         </Container>
@@ -83,7 +84,7 @@ const CreatePollForm = (props) => {
   }
 
   return (
-      getComponents()
+    getComponents()
   );
 }
 

@@ -1,31 +1,37 @@
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
-import { shallow, mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import { MemoryRouter } from 'react-router';
 import App from './App';
-import Navbar from './Navbar';
-import CreatePollForm from './CreatePollForm';
-import Results from './Results';
-import Poll from './Poll';
 
 describe('App', () => {
-  it('should render correctly', () => {
-    const component = shallow(<App />);
-    expect(component).toMatchSnapshot();
+
+  it('should render correct components for the root path', () => {
+    const { queryByTestId } = render(<MemoryRouter initialEntries={["/"]}><App/></MemoryRouter>);
+
+    expect(queryByTestId('navbar')).toBeTruthy();
+    expect(queryByTestId('createpollform')).toBeTruthy();
+    expect(queryByTestId('results')).toBeNull();
+    expect(queryByTestId('poll')).toBeNull();
   });
 
-  it('should render correct components for the given path path', () => {
-    const component = mount(
-      <MemoryRouter initialEntries={[ '/' ]}>
-        <App/>
-      </MemoryRouter>
-    );
+  it('should render correct components for the polls/:id/vote path', () => {
+    const { queryByTestId } = render(<MemoryRouter initialEntries={["/polls/123/vote"]}><App/></MemoryRouter>);
 
-    expect(component.find(Navbar)).toHaveLength(1);
-    expect(component.find(CreatePollForm)).toHaveLength(1);
-    expect(component.find(Results)).toHaveLength(0);
-    expect(component.find(Poll)).toHaveLength(0);
+    expect(queryByTestId('navbar')).toBeTruthy();
+    expect(queryByTestId('createpollform')).toBeNull();
+    expect(queryByTestId('results')).toBeNull();
+    expect(queryByTestId('poll')).toBeTruthy();
 
-    component.unmount();
+  });
+
+  it('should render correct components for the polls/:id/results path', () => {
+    const { queryByTestId } = render(<MemoryRouter initialEntries={["/polls/123/results"]}><App/></MemoryRouter>);
+
+    expect(queryByTestId('navbar')).toBeTruthy();
+    expect(queryByTestId('createpollform')).toBeNull();
+    expect(queryByTestId('results')).toBeTruthy();
+    expect(queryByTestId('poll')).toBeNull();
+
   });
 
 });

@@ -4,15 +4,15 @@ import Logo from './Logo.jsx';
 
 const Navbar = () => {
   return (
-    <div>
-      <AppBar position="static">
+
+      <AppBar data-testid="navbar" position="static">
         <Toolbar>
           <Typography edge="start" variant="h5" color="inherit">
             <Logo />
           </Typography>
         </Toolbar>
       </AppBar>
-    </div>
+
   );
 }
 

@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
   button: {
-    padding: theme.spacing(0.1),
+    // padding: theme.spacing(0.1),
   }
 }));
 
@@ -26,11 +26,12 @@ const AddOptionsForm = (props) => {
     <form onSubmit={(e) => {handleAddOption(e)}}>
       <TextField
         className={classes.textField}
-        id="addOption"
+        aria-label="addOption"
         value={newOption}
         onChange={(e) => {setNew(e.target.value)}}
         margin="normal"
         autoComplete="off"
+        inputProps={{"data-testid": "option-input"}}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -39,7 +40,7 @@ const AddOptionsForm = (props) => {
                 color="primary"
                 onClick={(e) => {handleAddOption(e)}}
                 className={classes.button}
-                aria-label="submit option"
+                aria-label="submitOption"
                 component="span"
               >
                 <AddBox/>

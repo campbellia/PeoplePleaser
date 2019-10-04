@@ -1,8 +1,8 @@
 import React from 'react';
 import { Paper, Table, TableBody, TableRow, TableHead, TableCell, IconButton, Grid, Typography } from '@material-ui/core';
 import { Delete } from '@material-ui/icons';
-import AddOptionsForm from './AddOptionsForm.jsx';
 import { makeStyles } from '@material-ui/styles';
+import AddOptionsForm from './AddOptionsForm.jsx';
 
 const useStyles = makeStyles(theme => ({
   narrowCell: {
@@ -20,7 +20,7 @@ const OptionsList = ({ options, handleRemoveOption, handleAddOption }) => {
         return (
           <TableRow key={i}>
             <TableCell className={classes.narrowCell}>
-              <Grid container direction="row" justify="space-between" alignItems="center">
+              <Grid container direction="row" justify="space-between" alignItems="center" aria-label="option">
                 <Grid item>
                   {option}
                 </Grid>

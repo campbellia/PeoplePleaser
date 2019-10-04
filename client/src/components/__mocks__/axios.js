@@ -1,28 +1,54 @@
 const axios = jest.genMockFromModule('axios');
 
-const get = (url) => {
-  return new Promise((resolve, reject) => {
-    var data = {
-      name: "test",
-      options: {"option1": [3]},
-      totalVotes: 0,
+const get = jest.fn((url) => {
+  const sampleResponse1 = {
+    data: {
+      name: "Roots",
+      options: {
+        "Licorice": [3, 5],
+        "Potato": [1, -3]
+      },
+      totalVotes: 2,
       terminated: false
     }
-    resolve(data);
-  });
-}
+  };
 
-const put = (url, data) => {
+  const sampleResponse2 = {
+    data: {
+      name: "Bears?",
+      options: {
+        "Brownbear": [1, 5, 3],
+        "Blackbear": [0, 5, -5]
+      },
+      totalVotes: 3,
+      terminated: true
+    }
+  }
   return new Promise((resolve, reject) => {
-    resolve();
+    if (url === '/polls/123') {
+      var res = sampleResponse1;
+    } else if (url === '/polls/456') {
+      var res = sampleResponse2;
+    }
+    resolve(res);
   });
-}
+});
 
-const post = (url, data) => {
+const put = jest.fn((url, data) => {
   return new Promise((resolve, reject) => {
-    resolve();
+    const res = {};
+    resolve(res);
   });
-}
+});
+
+const post = jest.fn((url, data) => {
+  return new Promise((resolve, reject) => {
+    var res = {
+      data: '/polls/123/vote'
+    }
+    resolve(res);
+  });
+});
 
 axios.get = get;
 axios.put = put;

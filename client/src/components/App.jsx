@@ -18,7 +18,7 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router history={history}>
-        <Navbar/>
+        <Route path="/" component={Navbar}/>
         <Route exact={true} path="/" component={CreatePollForm}/>
         <Route path="/polls/:pollId/vote" component={Poll}/>
         <Route path="/polls/:pollId/results" component={Results}/>

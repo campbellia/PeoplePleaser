@@ -99,10 +99,10 @@ const Poll = ({ match }) => {
 
   const getComponents = () => {
     if (poll.terminated) {
-      return <EndedPoll handleRestartPoll={handleRestartPoll} pollId={match.params.pollId}/>;
+      return <EndedPoll data-testid="poll" handleRestartPoll={handleRestartPoll} pollId={match.params.pollId}/>;
     } else if (!redirect) {
       return (
-      <Container >
+      <Container data-testid="poll">
        <Typography className={classes.header} align="center" variant="h4" component="h4">{poll.name}</Typography>
           <form onSubmit={handleSubmitVotes}>
             {options.map(option => {
@@ -110,6 +110,7 @@ const Poll = ({ match }) => {
               <div className="option">
                 <h4>{option}</h4>
                 <Slider
+                  aria-label="changeVote"
                   defaultValue={0}
                   step={1}
                   marks
@@ -124,7 +125,7 @@ const Poll = ({ match }) => {
               <Button className="btn" variant="contained" color="primary">
                 SHARE POLL
               </Button>
-              <Button type="submit" value="Submit Votes" variant="contained" color="primary">SUBMIT VOTES</Button>
+              <Button type="submit" value="Submit Votes" variant="contained" color="primary" aria-label="submitVotes">SUBMIT VOTES</Button>
               </Grid>
           </form>
       </Container>

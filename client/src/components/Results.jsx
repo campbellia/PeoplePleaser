@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     height: 50
   },
   container: {
-    marginTop: theme.spacing(5)
+
   }
 }));
 
@@ -68,7 +68,7 @@ const Results = ({match}) => {
       return <Redirect to={redirect}/>
     } else if (poll.terminated) {
       return (
-        <Container maxWidth="sm">
+        <Container data-testid="results" maxWidth="sm">
           <Grid container direction="column" spacing={3}>
             <Grid item>
              <Table>
@@ -86,10 +86,10 @@ const Results = ({match}) => {
                 if (i === 0) {
                   return (
                     <TableRow>
-                      <TableCell>
+                      <TableCell aria-label="option">
                         {item[0]}
                       </TableCell>
-                      <TableCell>
+                      <TableCell aria-label="points">
                         {item[1]}
                       </TableCell>
                     </TableRow>
@@ -97,10 +97,10 @@ const Results = ({match}) => {
                 } else {
                   return (
                     <TableRow>
-                      <TableCell>
+                      <TableCell aria-label="option">
                         {item[0]}
                       </TableCell>
-                      <TableCell>
+                      <TableCell aria-label="points">
                         {item[1]}
                       </TableCell>
                     </TableRow>
@@ -118,14 +118,14 @@ const Results = ({match}) => {
       );
     } else {
       return (
-        <Container className={classes.container} maxWidth="sm">
+        <Container data-testid="results" className={classes.container} maxWidth="sm">
           <Grid container spacing={2} direction="column" alignItems="center">
             <Grid item>
               <Typography align="center" variant="h3" component="h3">Total Votes Submitted: {poll.totalVotes}</Typography>
             </Grid>
               <Grid item container direction="column" alignItems="center" spacing={1}>
                 <Grid item>
-                  <Button className={classes.button} variant="contained" color="primary" onClick={handleViewResults}>VIEW RESULTS</Button>
+                  <Button aria-label="viewresults" className={classes.button} variant="contained" color="primary" onClick={handleViewResults}>VIEW RESULTS</Button>
                 </Grid>
                 <Grid item>
                   <Typography variant="body2" component="span">Voting will be disabled after viewing results</Typography>
