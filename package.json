@@ -11,7 +11,8 @@
     "test-update": "jest --updateSnapshot",
     "start": "nodemon server/index.js",
     "build-dev": "webpack --mode development --watch",
-    "build-prod": "webpack --mode production"
+    "build-prod": "webpack --mode production",
+    "postbuild": "react-snap"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,8 @@
     "react": "^16.10.0",
     "react-dom": "^16.10.0",
     "react-helmet": "^5.2.1",
-    "react-router-dom": "^5.1.1"
+    "react-router-dom": "^5.1.1",
+    "react-snap": "^1.23.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.2",
