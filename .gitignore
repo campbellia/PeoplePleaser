@@ -35,4 +35,4 @@ bower_components/
 .flooignore
 
 #config
-firebaseConfig.js
+.env
