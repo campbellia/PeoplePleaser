@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
   button: {
-    // padding: theme.spacing(0.1),
+    padding: 2
   }
 }));
 
