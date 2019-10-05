@@ -8,7 +8,13 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+// app.get('*.js', (req, res, next) => {
+//   req.url = req.url + '.gz';
+//   res.set('Content-Encoding', 'gzip');
+//   next();
+// });
 app.use('/', express.static('public/'));
+
 
 app.put('/polls/:id', (req, res) => {
   if (req.body.terminated) {
