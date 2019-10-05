@@ -11,7 +11,8 @@
     "test-update": "jest --updateSnapshot",
     "start": "nodemon server/index.js",
     "build-dev": "webpack --mode development --watch",
-    "build-prod": "webpack --mode production"
+    "build-prod": "webpack --mode production",
+    "postbuild": "react-snap"
   },
   "repository": {
     "type": "git",
