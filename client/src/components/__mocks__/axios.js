@@ -1,7 +1,7 @@
 const axios = jest.genMockFromModule('axios');
 
 const get = jest.fn((url) => {
-  const sampleResponse1 = {
+  var sampleResponse1 = {
     data: {
       name: "Roots",
       options: {
@@ -13,7 +13,7 @@ const get = jest.fn((url) => {
     }
   };
 
-  const sampleResponse2 = {
+  var sampleResponse2 = {
     data: {
       name: "Bears?",
       options: {
@@ -23,11 +23,12 @@ const get = jest.fn((url) => {
       totalVotes: 3,
       terminated: true
     }
-  }
+  };
+
   return new Promise((resolve, reject) => {
     if (url === '/polls/123') {
       var res = sampleResponse1;
-    } else if (url === '/polls/456') {
+    } else {
       var res = sampleResponse2;
     }
     resolve(res);

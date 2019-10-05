@@ -85,7 +85,7 @@ const Results = ({match}) => {
                 {calculateRankings().map((item, i) => {
                 if (i === 0) {
                   return (
-                    <TableRow>
+                    <TableRow key={i}>
                       <TableCell aria-label="option">
                         {item[0]}
                       </TableCell>
@@ -96,7 +96,7 @@ const Results = ({match}) => {
                   );
                 } else {
                   return (
-                    <TableRow>
+                    <TableRow key={i}>
                       <TableCell aria-label="option">
                         {item[0]}
                       </TableCell>

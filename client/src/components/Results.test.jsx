@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import {render, fireEvent, within} from '@testing-library/react';
+import { render, fireEvent, within, waitForElementToBeRemoved } from '@testing-library/react';
 import Results from './Results';
 
 describe('Results', () => {
@@ -26,19 +26,22 @@ describe('Results', () => {
         pollId: '123'
       }
     };
-    const { findByText, findAllByLabelText, queryByText, queryAllByLabelText, getByLabelText, queryByLabelText } = render(<Results match={match}/>);
+    const { findByText, findAllByLabelText, queryByText, queryAllByLabelText, getByLabelText, queryByLabelText, container } = render(<Results match={match}/>);
     fireEvent.click(getByLabelText('viewresults'));
 
     expect(axios.put).toHaveBeenCalled();
-    const results = await findAllByLabelText('options');
-    expect(queryByText('Licorice')).toBeTruthy();
-    expect(queryByText('Potato')).toBeTruthy();
-    const points = queryAllByLabelText('points');
-    expect(points.length).toEqual(2);
-    const winner = within(points[0]).getByText('8')
-    const second = within(points[1]).getByText('-2');
-    expect(winner).toBeTruthy();
-    expect(second).toBeTruthy();
+    waitForElementToBeRemoved(() => findByText('Total Votes Submitted: 2'))
+      .then(() => {
+        expect(queryByText('Licorice')).toBeTruthy();
+        expect(queryByText('Potato')).toBeTruthy();
+        const points = queryAllByLabelText('points');
+        expect(points.length).toEqual(2);
+        const winner = within(points[0]).getByText('8')
+        const second = within(points[1]).getByText('-2');
+        expect(winner).toBeTruthy();
+        expect(second).toBeTruthy();
+      })
+
 
 
   });
