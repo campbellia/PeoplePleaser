@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { Grid, TextField, Container, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Helmet } from 'react-helmet';
 import OptionsList from './OptionsList.jsx';
 
 const useStyles = makeStyles(theme => ({
@@ -84,7 +85,13 @@ const CreatePollForm = () => {
   }
 
   return (
-    getComponents()
+    <>
+    <Helmet>
+        <title>Create A Poll</title>
+        <meta name="description" content="What movie should we watch? Where should we go for dinner? Find consensus in your social groups: create your group poll and find the decision that pleases everyone...or close." />
+    </Helmet>
+    {getComponents()}
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import {Slider, Grid, Container, Typography, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Helmet } from 'react-helmet';
 import EndedPoll from './EndedPoll.jsx';
 
 const useStyles = makeStyles(theme => ({
@@ -105,12 +106,12 @@ const Poll = ({ match }) => {
       <Container data-testid="poll">
        <Typography className={classes.header} align="center" variant="h4" component="h4">{poll.name}</Typography>
           <form onSubmit={handleSubmitVotes}>
-            {options.map(option => {
+            {options.map((option, i) => {
               return (
-              <div className="option">
+              <div className="option" key={i}>
                 <h4>{option}</h4>
                 <Slider
-                  aria-label="changeVote"
+                  data-testid="changeVote"
                   defaultValue={0}
                   step={1}
                   marks
@@ -134,7 +135,15 @@ const Poll = ({ match }) => {
       return <Redirect to={redirect}></Redirect>
     }
   }
-  return (getComponents());
+  return (
+    <>
+    <Helmet>
+        <title>Vote on A Shared Poll</title>
+        <meta name="description" content="Someone has shared a group poll with you -- submit your preferences for each option, and let peoplepleaser reveal the optimal decision." />
+    </Helmet>
+    {getComponents()}
+    </>
+  );
 }
 
 export default Poll;

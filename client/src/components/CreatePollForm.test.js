@@ -1,7 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import {render, fireEvent} from '@testing-library/react';
-// import { MemoryRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import CreatePollForm from './CreatePollForm';
 
 describe('CreatePollForm', () => {
@@ -38,7 +39,7 @@ describe('CreatePollForm', () => {
   });
 
   it('should make a post request with an appropriate data object when the user submits the form and redirect to the /polls/id/vote path', () => {
-      const { getByTestId, getByLabelText } = render(<CreatePollForm />);
+      const { getByTestId, getByLabelText } = render(<MemoryRouter initialEntries={["/"]}><CreatePollForm /></MemoryRouter>);
       //Add a title
       fireEvent.change(getByTestId('pollname'), {target: {value: 'Harpist'}});
       //Add options

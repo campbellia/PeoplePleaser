@@ -43,7 +43,6 @@ describe('Results', () => {
       })
 
 
-
   });
 
   it('should display the results of the poll if poll is already terminated', async () => {
