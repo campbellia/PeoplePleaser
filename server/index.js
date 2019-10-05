@@ -1,9 +1,12 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
-const port = process.env.PORT || 3000;
 const controllers = require('../database/controllers.js');
 const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+const port = process.env.PORT || 3000;
+
 
 app.use(bodyParser.json());
 app.use('/', express.static('public/'));
