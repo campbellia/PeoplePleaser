@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 //   res.set('Content-Encoding', 'gzip');
 //   next();
 // });
-app.use('/', express.static('public/'));
+app.use('/', express.static('public/dist/'));
 
 
 app.put('/polls/:id', (req, res) => {
