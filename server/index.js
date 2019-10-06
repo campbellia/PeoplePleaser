@@ -9,7 +9,7 @@ const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.get('/polls/:id/:chunk?', (req, res, next) => {
-  if (!req.params.chunk || req.params.chunk === 'vote') {
+  if (!req.params.chunk || req.params.chunk === 'vote' || req.params.chunk === 'results') {
     next();
     return;
   } else {
