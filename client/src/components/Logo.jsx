@@ -5,11 +5,16 @@ import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
   logo: {
-    fontFamily: "'Dosis', sans-serif",
+    fontFamily: "'Varela', arial black, sans-serif",
     fontWeight: "bold",
     textDecoration: "none",
-    color: "#0f0e21"
+    textShadow: "0.5px 0.5px 0.5px",
+    color: "#1d1b40",
+    '&:hover': {
+      color: "#282559"
+    }
   }
+
 }));
 
 const Logo = () => {
@@ -17,7 +22,7 @@ const Logo = () => {
   return (
     <Container>
         <Link className={classes.logo} to="/">
-            PEOPLEPLEASER
+            PEOPLE PLEASER
         </Link>
     </Container>
   );
