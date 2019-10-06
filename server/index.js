@@ -8,13 +8,28 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.get('/polls/:id/:chunk?', (req, res, next) => {
+  if (!req.params.chunk || req.params.chunk === 'vote') {
+    next();
+    return;
+  } else {
+    res.sendFile(path.resolve(__dirname, '../public/dist', req.params.chunk));
+  }
+});
+app.use('/', express.static('public/dist/'));
 // app.get('*.js', (req, res, next) => {
 //   req.url = req.url + '.gz';
 //   res.set('Content-Encoding', 'gzip');
 //   next();
 // });
-app.use('/', express.static('public/dist/'));
 
+app.get('/polls/:id/vote/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/dist', 'index.html'));
+});
+
+app.get('/polls/:id/results', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public/dist', 'index.html'));
+});
 
 app.put('/polls/:id', (req, res) => {
   if (req.body.terminated) {
@@ -34,14 +49,6 @@ app.put('/polls/:id', (req, res) => {
       }
     });
   }
-});
-
-app.get('/polls/:id/vote', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public/', 'index.html'));
-});
-
-app.get('/polls/:id/results', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../public/', 'index.html'));
 });
 
 app.get('/polls/:id', (req, res) => {
