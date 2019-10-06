@@ -8,6 +8,11 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
+app.get('*.js', (req, res, next) => {
+  req.url = req.url + '.gz';
+  res.set('Content-Encoding', 'gzip');
+  next();
+});
 app.get('/polls/:id/:chunk?', (req, res, next) => {
   if (!req.params.chunk || req.params.chunk === 'vote' || req.params.chunk === 'results') {
     next();
@@ -17,11 +22,6 @@ app.get('/polls/:id/:chunk?', (req, res, next) => {
   }
 });
 app.use('/', express.static('public/dist/'));
-// app.get('*.js', (req, res, next) => {
-//   req.url = req.url + '.gz';
-//   res.set('Content-Encoding', 'gzip');
-//   next();
-// });
 
 app.get('/polls/:id/vote/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../public/dist', 'index.html'));

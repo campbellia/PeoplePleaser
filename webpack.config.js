@@ -21,8 +21,8 @@ module.exports = {
     path: __dirname + '/public/dist'
   },
   plugins: [
-    // new CompressionPlugin({
-    //   test: /\.js(\?.*)?$/i
-    // })
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i
+    })
   ]
 };
