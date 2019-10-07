@@ -7,11 +7,17 @@ the link with your group. Votes are weighed by preference, allowing PeoplePlease
 ## Setup
 
 From within the root directory:
-Install dependencies: ```bash npm install```
-Compile bundle with webpack in development mode: ```bash npm run build-dev```
-Compile bundle with webpack in production mode:```bash npm run build-prod```
-Start node server: ```bash npm start ```
-Run tests: ```bash npm test ```
+
+Install dependencies:
+```bash npm install```
+Compile bundle with webpack in development mode:
+```bash npm run build-dev```
+Compile bundle with webpack in production mode:
+```bash npm run build-prod```
+Start node server:
+```bash npm start ```
+Run tests:
+```bash npm test ```
 
 
 ## License
