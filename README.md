@@ -9,15 +9,15 @@ the link with your group. Votes are weighed by preference, allowing PeoplePlease
 From within the root directory:
 
 Install dependencies:
-```bash npm install```
+```npm install```
 Compile bundle with webpack in development mode:
-```bash npm run build-dev```
+```npm run build-dev```
 Compile bundle with webpack in production mode:
-```bash npm run build-prod```
+```npm run build-prod```
 Start node server:
-```bash npm start ```
+```npm start ```
 Run tests:
-```bash npm test ```
+```npm test ```
 
 
 ## License
