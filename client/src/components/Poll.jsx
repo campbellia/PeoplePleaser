@@ -124,7 +124,7 @@ const Poll = ({ match }) => {
             })}
               <Grid container justify="space-between">
               <Button className="btn" variant="contained" color="primary">
-                SHARE POLL
+                COPY LINK
               </Button>
               <Button type="submit" value="Submit Votes" variant="contained" color="primary" aria-label="submitVotes">SUBMIT VOTES</Button>
               </Grid>
