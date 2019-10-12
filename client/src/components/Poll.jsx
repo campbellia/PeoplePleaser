@@ -36,18 +36,18 @@ const Poll = ({ match }) => {
   const [results, setResults] = useState(neutralResults);
   const [redirect, setRedirect] = useState(false);
 
-  const getPoll = () => {
+  const getPoll = (cb) => {
     var url = `/polls/${match.params.pollId}`;
     axios.get(url)
       .then(result => {
-        setPoll(result.data);
+        cb(result.data);
       })
       .catch(err => {
         console.log('ERROR getting poll:', err);
       });
   }
 
-  useEffect(() => {getPoll()}, []);
+  useEffect(() => {getPoll(setPoll)}, []);
 
   const onSliderChange = (val, optionName) => {
     var newResults = {};
@@ -61,22 +61,28 @@ const Poll = ({ match }) => {
 
   const handleSubmitVotes = (event) => {
     event.preventDefault();
-    const pollData = {};
-    pollData.options = results;
-    pollData.terminated = false;
-    if (pollData.options[''] !== undefined) {
-      delete pollData.options[''];
-    }
-    var url = `/polls/${match.params.pollId}`;
-    axios.put(url, pollData)
-      .then(() => {
-        var url = `/polls/${match.params.pollId}/results`;
-        setRedirect(url);
-      })
-      .catch(err => {
-        console.log('ERR:', err);
-      });
-    }
+    getPoll((poll) => {
+      if (poll.terminated) {
+        setPoll(poll);
+      } else {
+        const pollData = {};
+        pollData.options = results;
+        pollData.terminated = false;
+        if (pollData.options[''] !== undefined) {
+          delete pollData.options[''];
+        }
+        var url = `/polls/${match.params.pollId}`;
+        axios.put(url, pollData)
+          .then(() => {
+            var url = `/polls/${match.params.pollId}/results`;
+            setRedirect(url);
+          })
+          .catch(err => {
+            console.log('ERR:', err);
+          });
+      }
+    })
+  }
 
   const handleRestartPoll = () => {
     var optionsObj = {};
@@ -89,13 +95,20 @@ const Poll = ({ match }) => {
       totalVotes: 0,
       terminated: false
     }
-    axios.put(`/polls/${match.params.pollId}`, pollInfo)
-      .then(() => {
-        getPoll();
-      })
-      .catch(err => {
-        console.log('ERR:', err);
-      });
+    //ensure poll has not already been restarted
+    getPoll((poll) => {
+      if (poll.terminated) {
+        axios.put(`/polls/${match.params.pollId}`, pollInfo)
+          .then(() => {
+            getPoll(setPoll);
+          })
+          .catch(err => {
+            console.log('ERR:', err);
+          });
+      } else {
+        setPoll(poll);
+      }
+    });
   }
 
   const getComponents = () => {
