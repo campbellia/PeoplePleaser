@@ -2,9 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history'
-// import CreatePollForm from './CreatePollForm.jsx';
-// import Poll from './Poll.jsx';
-// import Results from './Results.jsx';
 import Navbar from './Navbar.jsx';
 import { createMuiTheme } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom'
-import { Helmet } from 'react-helmet';
 import {Container, Card, Grid, CardActions, Button, List, Divider, ListItem, ListItemText, Typography, Table, TableBody, TableHead, TableCell, TableRow } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 
@@ -140,10 +139,6 @@ const Results = ({match}) => {
 
   return (
     <>
-    <Helmet>
-        <title>View Results</title>
-        <meta name="description" content="Results are coming in -- have you voted? If everyone has cast their votes, lock your results in by viewing the rankings for each option." />
-    </Helmet>
     {getComponents()}
     </>
   );

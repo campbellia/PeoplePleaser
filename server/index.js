@@ -74,8 +74,6 @@ app.post('/polls', (req, res) => {
   });
 });
 
-
-
-app.listen(port, () => {
+server.listen(port, () => {
   console.log('Server is listening at port ', port);
 });

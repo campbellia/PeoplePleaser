@@ -1,12 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, waitForElement } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import App from './App';
 
 describe('App', () => {
 
   it('should render correct components for the root path', () => {
-    const { queryByTestId } = render(<MemoryRouter initialEntries={["/"]}><App/></MemoryRouter>);
+    const { queryByTestId, getByTestId } = render(<MemoryRouter initialEntries={["/"]}><App/></MemoryRouter>);
 
     expect(queryByTestId('navbar')).toBeTruthy();
     expect(queryByTestId('createpollform')).toBeTruthy();
